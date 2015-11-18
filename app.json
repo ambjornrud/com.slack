@@ -1,0 +1,37 @@
+{
+	"id": "com.slack",
+	"version": "0.0.1",
+	"name": {
+		"en": "Slack"
+	},
+	"compatibility": "0.x || 1.x",
+	"dependencies": {
+		"slack-node": "^0.1.3"
+	},
+	"flow": {
+		"actions": [
+			{
+				"id": "send_message",
+				"title": {
+					"en": "Send message"
+				},
+				"args": [
+					{
+						"name": "recipient",
+						"placeholder": {
+							"en": "Recipient"
+						},
+						"type": "autocomplete"
+					},
+					{
+						"name": "message",
+						"placeholder": {
+							"en": "Message"
+						},
+						"type": "text"
+					}
+				]
+			}
+		]
+	}
+}
