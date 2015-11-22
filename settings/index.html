@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+    <head>
+        
+    </head>
+    <body>
+
+        <h1>Log-in to Slack</h1>
+        <p>
+	        <button class="button" onclick="login();">Click here to log-in</button>
+        </p>
+        
+        <script type="text/javascript">
+        function onHomeyReady(){
+            Homey.ready();
+            
+            console.log('Homey.settings', Homey.settings)
+        }
+        
+        function login(){
+	        Homey.api('POST', '/settings/authorize', {}, function(err, result){
+		        console.log(err, result)
+	        })
+        }
+        
+        function logout() {
+	        
+        }
+        </script>
+        
+    </body>
+</html>
