@@ -4,27 +4,73 @@
         
     </head>
     <body>
+	    
+	    <style type="text/css">
+		.view {
+			display: none;
+		}
+		.view.visible {
+			display: block;
+		}
+		</style>
 
         <h1>Log-in to Slack</h1>
-        <p>
-	        <button class="button" onclick="login();">Click here to log-in</button>
-        </p>
+        <div class="view" id="login">
+	        <p>
+		        <button class="button" onclick="login();">Click here to log-in</button>
+	        </p>
+        </div>
+        <div class="view" id="logged-in">
+	        
+	        <p>Team: <span id="team_name"></span></p>
+	        
+	        <p>
+		        <button class="button" onclick="logout();">Logout</button>
+	        </p>
+	        
+	    </div>
         
         <script type="text/javascript">
         function onHomeyReady(){
-            Homey.ready();
-            
-            console.log('Homey.settings', Homey.settings)
+	            
+            Homey.on( 'authorized', function( success ){
+				if( success === false ) alert( __('authorized_error') )
+				update();
+			});
+			
+			update(function(){
+	            Homey.ready();					
+			});
+        }
+        
+        function update( callback ) {
+			Homey.get('auth', function( err, settings ){
+				if( err ) return alert(err);
+		        var logged_in = ( settings && typeof settings.access_token == 'string' );
+		        document.getElementById('login').classList.toggle('visible', !logged_in);
+		        document.getElementById('logged-in').classList.toggle('visible', logged_in);
+		        document.getElementById('team_name').innerHTML = settings.team_name || '';        
+		        
+		        if( typeof callback == 'function' ) callback();
+	        });
         }
         
         function login(){
-	        Homey.api('POST', '/settings/authorize', {}, function(err, result){
-		        console.log(err, result)
+	        Homey.api('POST', '/settings/authorize', {}, function(err, url){
+				var width	= 600;
+				var height	= 600;
+				var left	= (screen.width/2)-(width/2);
+				var top		= (screen.height/2)-(height/2);
+					
+				auth_dialog = window.open(url, "auth_dialog", "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top + ", menubar=no, status=no, toolbar=no");
 	        })
         }
         
         function logout() {
-	        
+	        Homey.set('auth', {}, function( err, settings ){
+		        if( err ) return alert(err);
+		        update();
+	        })
         }
         </script>
         

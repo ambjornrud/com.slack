@@ -13,9 +13,16 @@ var self = module.exports = {
 	init: function() {
 				
 		Homey.log("Slack for Homey is ready!");
-		
+
+		if( typeof Homey.manager('settings').get('auth') == 'undefined' ) {
+			Homey.manager('settings').set('auth', {});
+		}
+
 		initSlack();
 		
+		/*
+			Flow events
+		*/
 		Homey.manager('flow').on('action.send_message', function( callback, args ){			
 			
 			if( typeof slack == 'undefined' ) return callback( new Error("slack not inited") );
@@ -41,11 +48,15 @@ var self = module.exports = {
 	authorize: authorize
 }
 
+/*
+	Initialize Slack API
+*/
 function initSlack() {		
-	if( typeof Homey.settings.access_token == 'string' ) {
+	var access_token = Homey.manager('settings').get('auth').access_token;
+	if( typeof access_token == 'string' ) {
 	
 		// create the instance
-		slack = new Slack( Homey.settings.access_token );
+		slack = new Slack( access_token );
 		
 		// get channels & users for the flow editor		
 		slack.api('channels.list', {}, function(err, response){
@@ -76,6 +87,9 @@ function initSlack() {
 	}
 }
 
+/*
+	Authorize with Slack
+*/
 function authorize( callback ) {
 	
 	callback = callback || function(){}
@@ -90,15 +104,18 @@ function authorize( callback ) {
 	
 	function onGotUrl( err, url ){
 		if( err ) return callback(err);
-		Homey.log('Got url!', url);
+		Homey.log('Got url!');
 		callback( null, url );
 		callback_called = true;
 	}
 	
 	function onGotCode( err, code ) {
-		if( err ) return Homey.error(err);
+		if( err ) {
+		    Homey.manager('api').realtime('authorized', false);
+			return Homey.error(err);
+		}
 		
-		Homey.log('Got authorization code!', code);
+		Homey.log('Got authorization code!');
 		
 		var data = querystring.stringify({
 	        'client_id'		: Homey.env.CLIENT_ID,
@@ -126,15 +143,23 @@ function authorize( callback ) {
 				try {
 					body = JSON.parse(body);
 					
-				    if( body.ok !== true ) return Homey.error( "body not ok" );
+				    if( body.ok !== true ) {
+					    Homey.manager('api').realtime('authorized', false);
+					    return Homey.error( "body not ok" );
+					}
 				    
-				    Homey.settings.access_token = body.access_token;
-				    Homey.settings.team_name 	= body.team_name;
-				    Homey.settings.team_id 		= body.team_id;
+				    Homey.manager('settings').set('auth', {
+					    access_token	: body.access_token,
+					    team_name		: body.team_name,
+					    team_id			: body.team_id
+					});
+				    
+				    Homey.manager('api').realtime('authorized', true);
 				    
 					initSlack();
 					
 				} catch(e){
+				    Homey.manager('api').realtime('authorized', false);
 					Homey.error(e);
 				}
 			})
