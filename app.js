@@ -36,9 +36,9 @@ var self = module.exports = {
 			});
 		})
 		
-		Homey.manager('flow').on('action.send_message.recipient.autocomplete', function( callback, query ){			
+		Homey.manager('flow').on('action.send_message.recipient.autocomplete', function( callback, args ){			
 			var results = recipients.filter(function(recipient){
-				return recipient.name.toLowerCase().indexOf(query.toLowerCase()) > -1;
+				return recipient.name.toLowerCase().indexOf(args.query.toLowerCase()) > -1;
 			})			
 			callback( results );
 		})
