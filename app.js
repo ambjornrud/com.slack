@@ -6,7 +6,7 @@ var querystring = require('querystring');
 var Slack 		= require('./lib/Slack.js');
 
 var slack;
-var recipients = [];
+var recipients = false;
 
 var self = module.exports = {
 	
@@ -32,15 +32,19 @@ var self = module.exports = {
 				channel		: args.recipient.id,
 				username	: 'Homey'
 			}, function(err, response){
-				callback( err instanceof Error );
+				if( err ) return callback(err);
+				return callback( null, true );
 			});
 		})
 		
 		Homey.manager('flow').on('action.send_message.recipient.autocomplete', function( callback, args ){			
+			
+			if( !Array.isArray(recipients) ) return callback( new Error("Not logged in") );
+			
 			var results = recipients.filter(function(recipient){
 				return recipient.name.toLowerCase().indexOf(args.query.toLowerCase()) > -1;
 			})			
-			callback( results );
+			callback( null, results );
 		})
 		
 	},
@@ -57,6 +61,8 @@ function initSlack() {
 	
 		// create the instance
 		slack = new Slack( access_token );
+		
+		recipients = [];
 		
 		// get channels & users for the flow editor		
 		slack.api('channels.list', {}, function(err, response){
