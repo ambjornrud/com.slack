@@ -45,7 +45,7 @@
         
         function update( callback ) {
 			Homey.get('auth', function( err, settings ){
-				if( err ) return alert(err);
+				if( err ) return Homey.alert(err, 'error');
 		        var logged_in = ( settings && typeof settings.access_token == 'string' );
 		        document.getElementById('login').classList.toggle('visible', !logged_in);
 		        document.getElementById('logged-in').classList.toggle('visible', logged_in);
@@ -57,6 +57,8 @@
         
         function login(){
 	        Homey.api('POST', '/settings/authorize', {}, function(err, url){
+				if( err ) return Homey.alert('Error', 'error');
+				
 				var width	= 600;
 				var height	= 600;
 				var left	= (screen.width/2)-(width/2);
