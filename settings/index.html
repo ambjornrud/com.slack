@@ -58,12 +58,6 @@
         function login(){
 	        Homey.api('POST', '/settings/authorize', {}, function(err, url){
 				if( err ) return Homey.alert('Error', 'error');
-				
-				var width	= 600;
-				var height	= 600;
-				var left	= (screen.width/2)-(width/2);
-				var top		= (screen.height/2)-(height/2);
-					
 				auth_dialog = Homey.popup(url);
 	        })
         }
