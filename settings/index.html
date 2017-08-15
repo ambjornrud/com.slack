@@ -64,7 +64,7 @@
 				var left	= (screen.width/2)-(width/2);
 				var top		= (screen.height/2)-(height/2);
 					
-				auth_dialog = window.open(url, "auth_dialog", "width=" + width + ", height=" + height + ", left=" + left + ", top=" + top + ", menubar=no, status=no, toolbar=no");
+				auth_dialog = Homey.popup(url);
 	        })
         }
         
