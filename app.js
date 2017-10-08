@@ -35,6 +35,9 @@ class SlackApp extends Homey.App {
 			.catch( this.error );
 	}
 	
+	/*
+		Authorization
+	*/	
 	_initAuth() {
 		let auth = this._getAuth();
 		if( typeof auth === 'undefined' ) {
@@ -109,6 +112,24 @@ class SlackApp extends Homey.App {
 					username	: 'Homey',
 					icon_url	: 'https://homey-static.athom.com/apps/com.slack/icon.png'					
 				});
+			})
+			.getArgument('recipient')
+			.registerAutocompleteListener(this._onFlowRecipientAutocomplete.bind(this));
+		
+		new Homey.FlowCardAction('send_image')
+			.register()
+			.registerRunListener( args => {
+		
+				if( !this._slack.isAuthorized() )
+					throw new Error( Homey.__('unauthorized') );
+				
+				let image = args.droptoken;
+				return image.getBuffer()
+					.then( buf => {
+						return this._slack.postImage(buf, args.message, [args.recipient.id]);
+					})
+				
+				
 			})
 			.getArgument('recipient')
 			.registerAutocompleteListener(this._onFlowRecipientAutocomplete.bind(this));
