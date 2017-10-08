@@ -40,10 +40,10 @@ class SlackApp extends Homey.App {
 	*/	
 	_initAuth() {
 		let auth = this._getAuth();
-		if( typeof auth === 'undefined' ) {
-			this._setAuth();
+		if( auth && auth.access_token ) {
+			this._slack.setAccessToken( auth.access_token );
 		} else {
-			this._slack.setAccessToken( auth.access_token );			
+			this._setAuth();
 		}		
 	}
 	
@@ -162,7 +162,7 @@ class SlackApp extends Homey.App {
 			
 		return result.filter(recipient => {
 			return recipient.name.toLowerCase().indexOf(query.toLowerCase()) > -1;			
-		});
+		}).slice(0,50);
 	}
 	
 }
