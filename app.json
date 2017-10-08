@@ -1,6 +1,7 @@
 {
 	"id": "com.slack",
-	"version": "1.0.1",
+	"version": "2.0.0",
+	"sdk": 2,
 	"name": {
 		"en": "Slack"
 	},
@@ -8,7 +9,7 @@
 		"en": "Slack for Homey"
 	},
 	"category": "internet",
-	"compatibility": "0.x || 1.x",
+	"compatibility": ">=1.5.0",
 	"images": {
 		"large": "./assets/images/large.jpg",
 		"small": "./assets/images/small.jpg"
@@ -20,6 +21,29 @@
 				"title": {
 					"en": "Send message"
 				},
+				"args": [
+					{
+						"name": "recipient",
+						"placeholder": {
+							"en": "Recipient"
+						},
+						"type": "autocomplete"
+					},
+					{
+						"name": "message",
+						"placeholder": {
+							"en": "Message"
+						},
+						"type": "text"
+					}
+				]
+			},
+			{
+				"id": "send_image",
+				"title": {
+					"en": "Send image"
+				},
+				"droptoken": "image",
 				"args": [
 					{
 						"name": "recipient",

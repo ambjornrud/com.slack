@@ -1,0 +1,26 @@
+{
+  "name": "com.slack",
+  "version": "1.0.0",
+  "description": "Send messages to a user or channel from a Homey Flow!",
+  "main": "api.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/athombv/com.slack.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/athombv/com.slack/issues"
+  },
+  "homepage": "https://github.com/athombv/com.slack#readme",
+  "dependencies": {
+    "axios": "^0.16.2",
+    "form-data": "^2.3.1"
+  }
+}
