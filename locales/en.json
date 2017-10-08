@@ -1,3 +1,4 @@
 {
+	"unauthorized": "Please log-in first",
 	"authorized_error": "There was a problem authorizing Slack.\nPlease try again later."
 }
