@@ -1,6 +1,7 @@
 {
 	"id": "com.slack",
-	"version": "2.0.3",
+	"brandColor": "#E01563",
+	"version": "2.0.4",
 	"sdk": 2,
 	"name": {
 		"en": "Slack"
@@ -12,7 +13,7 @@
 	"compatibility": ">=1.5.0",
 	"author": {
 		"name": "Athom B.V.",
-		"email": "info@athom.nl"
+		"email": "support@athom.com"
 	},
 	"images": {
 		"large": "./assets/images/large.jpg",
