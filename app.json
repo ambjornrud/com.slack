@@ -1,7 +1,7 @@
 {
 	"id": "com.slack",
 	"brandColor": "#E01563",
-	"version": "2.0.4",
+	"version": "2.0.5",
 	"sdk": 2,
 	"name": {
 		"en": "Slack"
@@ -14,6 +14,14 @@
 	"author": {
 		"name": "Athom B.V.",
 		"email": "support@athom.com"
+	},
+	"contributors": {
+		"developers": [
+		 	{
+				"name": "Even Ambjørnrud",
+				"email": "even@ambjornrud.no"
+			}
+		]
 	},
 	"images": {
 		"large": "./assets/images/large.jpg",
