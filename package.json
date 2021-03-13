@@ -1,6 +1,6 @@
 {
   "name": "com.slack",
-  "version": "1.0.0",
+  "version": "2.1.0",
   "description": "Send messages to a user or channel from a Homey Flow!",
   "main": "api.js",
   "directories": {

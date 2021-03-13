@@ -124,7 +124,7 @@ class SlackApp extends Homey.App {
 					throw new Error( Homey.__('unauthorized') );
 
 				let image = args.droptoken;
-				return image.getBuffer()
+				return image.getStream()
 					.then( buf => {
 						return this._slack.postImage(buf, args.message, [args.recipient.id]);
 					})

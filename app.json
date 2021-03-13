@@ -1,7 +1,7 @@
 {
 	"id": "com.slack",
 	"brandColor": "#E01563",
-	"version": "2.0.5",
+	"version": "2.1.0",
 	"sdk": 2,
 	"name": {
 		"en": "Slack"
@@ -10,7 +10,7 @@
 		"en": "Slack for Homey"
 	},
 	"category": "internet",
-	"compatibility": ">=1.5.0",
+	"compatibility": ">=2.2.0",
 	"author": {
 		"name": "Athom B.V.",
 		"email": "support@athom.com"
